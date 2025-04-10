@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Biomuscle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(to bottom, #0f1115, #1a1d24);
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-width: 180px;
+        }
+        h2 {
+            text-align: center;
+            color: #61a4ff;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #c0c0c0;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            background-color: #2a2d35;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 8px;
+        }
+        button {
+            width: 100%;
+            background-color: #61a4ff;
+            color: #111;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-top: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3f89e5;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #1e252e;
+            border: 1px solid #336699;
+            border-radius: 8px;
+            display: none;
+            text-align: center;
+        }
+        .cta {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .cta a {
+            background-color: #25D366;
+            color: white;
+            padding: 12px 22px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            display: inline-block;
+            font-size: 16px;
+        }
+        .lema {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #aaa;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="biomuscle_logo.png" alt="Logo Biomuscle">
+        </div>
+        <h2>Calculadora de Calorías Biomuscle</h2>
+        <label for="edad">Edad:</label>
+        <input type="number" id="edad">
+        <label for="sexo">Sexo:</label>
+        <select id="sexo">
+            <option value="masculino">Masculino</option>
+            <option value="femenino">Femenino</option>
+        </select>
+        <label for="peso">Peso (kg):</label>
+        <input type="number" id="peso">
+        <label for="estatura">Estatura (cm):</label>
+        <input type="number" id="estatura">
+        <label for="actividad">Actividad física:</label>
+        <select id="actividad">
+            <option value="1.2">Sedentario</option>
+            <option value="1.55">Moderado</option>
+            <option value="1.75">Activo</option>
+        </select>
+        <label for="objetivo">Objetivo:</label>
+        <select id="objetivo">
+            <option value="deficit">Perder grasa</option>
+            <option value="mantenimiento">Mantener peso</option>
+            <option value="superavit">Ganar masa muscular</option>
+        </select>
+        <button onclick="calcularCalorias()">Calcular</button>
+        <div class="result" id="resultado"></div>
+        <div class="cta">
+            <p><strong>¿Quieres que sea tu coach?</strong></p>
+            <a href="https://wa.me/17863523941?text=Hola%2C%20estoy%20interesado%20en%20tus%20servicios%20de%20coaching" target="_blank">Pulsa aquí</a>
+        </div>
+        <div class="lema">"La disciplina tarde o temprano vencerá al talento."</div>
+    </div>
+
+    <script>
+        function calcularCalorias() {
+            const edad = parseInt(document.getElementById("edad").value);
+            const sexo = document.getElementById("sexo").value;
+            const peso = parseFloat(document.getElementById("peso").value);
+            const estatura = parseFloat(document.getElementById("estatura").value);
+            const actividad = parseFloat(document.getElementById("actividad").value);
+            const objetivo = document.getElementById("objetivo").value;
+
+            if (isNaN(edad) || isNaN(peso) || isNaN(estatura)) {
+                alert("Por favor completa todos los campos.");
+                return;
+            }
+
+            let tmb;
+            if (sexo === "masculino") {
+                tmb = 10 * peso + 6.25 * estatura - 5 * edad + 5;
+            } else {
+                tmb = 10 * peso + 6.25 * estatura - 5 * edad - 161;
+            }
+
+            let calorias = tmb * actividad;
+
+            if (objetivo === "deficit") {
+                calorias -= 400;
+            } else if (objetivo === "superavit") {
+                calorias += 400;
+            }
+
+            document.getElementById("resultado").style.display = "block";
+            document.getElementById("resultado").innerHTML = `
+                <strong>Tu gasto calórico estimado es:</strong><br>
+                <h3 style='color:#61a4ff;'>${Math.round(calorias)} kcal/día</h3>
+            `;
+        }
+    </script>
+</body>
+</html>
